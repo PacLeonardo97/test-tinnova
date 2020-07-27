@@ -7,7 +7,7 @@ import user from "./store/user";
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: ["form", "user"],
+  blacklist: ["form"],
 };
 
 const rootReducer = combineReducers({

@@ -1,30 +1,32 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { Creators as UserCreators } from '../../ducks/store/user';
+import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Creators as UserCreators } from "../../ducks/store/user";
+import { Container, ContainerUser } from "./style";
 
 const List = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
-  const getAllUser = useSelector(state => state.user.payload);
-  
+  const getAllUser = useSelector((state) => state.user.payload);
+
   useEffect(() => {
-    dispatch(UserCreators.fetchUser())
-  }, [])
+    getAllUser.length < 1 && dispatch(UserCreators.fetchUser());
+  }, []);
 
   return (
-    <div>
-      <h2>teste tinnova</h2>
-      <div>Listagem:</div>
-      <div>
-        {getAllUser?.data?.map(({ name, email, cpf, phone }) => (
-          <div key={cpf} style={{ border: "1px solid black" }}>
-            <p>nome:{name}</p>
-            <p>email:{email}</p>
-            <p>cpf:{cpf}</p>
-            <p>phone:{phone}</p>
-          </div>
+    <>
+      <button type="button" onClick={() => history.push("/")}>Ir para Cadastro</button>
+      <Container>
+        {getAllUser?.map(({ name, email, cpf, phone }) => (
+          <ContainerUser key={cpf} style={{ border: "1px solid black" }}>
+            <p>Nome: {name}</p>
+            <p>Email: {email}</p>
+            <p>Cpf: {cpf}</p>
+            <p>Phone: {phone}</p>
+          </ContainerUser>
         ))}
-      </div>
-    </div>
+      </Container>
+    </>
   );
 };
 
