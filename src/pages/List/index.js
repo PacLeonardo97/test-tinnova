@@ -1,28 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from 'react-redux';
+import { Creators as UserCreators } from '../../ducks/store/user';
 
 const List = () => {
-  const url = "https://private-9d65b3-tinnova.apiary-mock.com/users";
-
-  const [user, setUser] = useState([]);
-
+  const dispatch = useDispatch();
+  const getAllUser = useSelector(state => state.user.payload);
+  
   useEffect(() => {
-    const fetchUsers = async () => {
-      const result = await fetch(url, {
-        method: "GET",
-      });
-      setUser(await result.json());
-    };
-    fetchUsers();
-  }, []);
+    dispatch(UserCreators.fetchUser())
+  }, [])
 
   return (
     <div>
       <h2>teste tinnova</h2>
       <div>Listagem:</div>
-      {console.log(user)}
       <div>
-        {user?.map(({ name, email, cpf, phone }) => (
-          <div style={{ border: "1px solid black" }}>
+        {getAllUser?.data?.map(({ name, email, cpf, phone }) => (
+          <div key={cpf} style={{ border: "1px solid black" }}>
             <p>nome:{name}</p>
             <p>email:{email}</p>
             <p>cpf:{cpf}</p>
